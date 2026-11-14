@@ -379,13 +379,12 @@
       var d = v.rankDelta || 0;
       var mv = d > 0 ? '<span class="up">▲'+d+'</span>' : (d < 0 ? '<span class="down">▼'+Math.abs(d)+'</span>' : '<span class="flat">—</span>');
       var th = 'https://i.ytimg.com/vi/'+v.id+'/mqdefault.jpg';
-      var tag = v.short ? '<em class="tagshort">SHORT</em>' : '';
       return '<a class="row" href="https://www.youtube.com/watch?v='+v.id+'" target="_blank" rel="noopener">'
         + '<div class="rk">'+(i+1)+'</div>'
         + '<div class="mv">'+mv+'</div>'
         + '<div class="thumb"><img loading="lazy" src="'+th+'" alt=""></div>'
         + '<div class="meta"><div class="t">'+esc(v.title)+'</div>'
-        + '<div class="c"><b>'+esc(v.channel)+'</b>'+(v.subs?' · '+num(v.subs)+' subs':'')+' · '+dur(v.duration)+tag+'</div></div>'
+        + '<div class="c"><b>'+esc(v.channel)+'</b>'+(v.subs?' · '+num(v.subs)+' subs':'')+' · '+dur(v.duration)+'</div></div>'
         + '<div class="num"><div class="a">'+num(v.views)+'</div><div class="b">'+Math.round(ageH(v.published))+'h old</div></div>'
         + '<div class="num speed"><div class="a">'+num(vel(v))+'</div><div class="b">views/hr</div></div>'
         + '</a>';
