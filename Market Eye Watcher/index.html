@@ -239,7 +239,12 @@
   </section>
 
   <section class="sec-head">
-    <h2>Starboard<small>Top 20 GTA 6 videos · ranked by views per hour</small></h2>
+    <h2>Starboard<small id="boardSub">Top 20 GTA 6 videos · ranked by views per hour</small></h2>
+    <div class="tabs" id="srcTabs">
+      <div class="tab on" data-src="yt">YouTube</div>
+      <div class="tab" data-src="live">Twitch Live</div>
+      <div class="tab" data-src="clips">Twitch Clips</div>
+    </div>
     <div class="tabs" id="sortTabs">
       <div class="tab on" data-sort="velocity">Velocity</div>
       <div class="tab" data-sort="views">Views</div>
@@ -249,7 +254,7 @@
 
   <section class="boards">
     <div class="board">
-      <div class="board-top"><h3><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/></svg> GTA 6 — Top 20</h3><span>Long-form &amp; Shorts</span></div>
+      <div class="board-top"><h3><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/></svg> <span id="boardTitle">GTA 6 — Top 20</span></h3><span id="boardNote">Views / hour</span></div>
       <div id="board-main"><div class="empty">Loading…</div></div>
     </div>
   </section>
@@ -299,7 +304,7 @@
 <script>
 (function(){
   var DATA_URL = "data/current.json";
-  var state = { data:null, sort:"velocity" };
+  var state = { data:null, sort:"velocity", src:"yt" };
 
   var $ = function(id){ return document.getElementById(id); };
 
@@ -391,6 +396,76 @@
     }).join("");
   }
 
+  function upMin(iso){
+    var t = Date.parse(iso);
+    if(!t) return "live";
+    var m = Math.max(1, Math.round((Date.now()-t)/60000));
+    if(m < 60) return m+"m";
+    return Math.floor(m/60)+"h "+(m%60)+"m";
+  }
+
+  function liveRows(list){
+    if(!list || !list.length) return '<div class="empty">No GTA 6 streams live right now</div>';
+    return list.map(function(v,i){
+      return '<a class="row" href="'+v.url+'" target="_blank" rel="noopener">'
+        + '<div class="rk">'+(i+1)+'</div>'
+        + '<div class="mv">'+(v.lang||"").toUpperCase()+'</div>'
+        + '<div class="thumb"><img loading="lazy" src="'+v.thumb+'" alt=""></div>'
+        + '<div class="meta"><div class="t">'+esc(v.title)+'</div>'
+        + '<div class="c"><b>'+esc(v.channel)+'</b> · live '+upMin(v.started)+'</div></div>'
+        + '<div class="num"><div class="a">'+num(v.viewers)+'</div><div class="b">viewers</div></div>'
+        + '<div class="num speed"><div class="a">'+upMin(v.started)+'</div><div class="b">uptime</div></div>'
+        + '</a>';
+    }).join("");
+  }
+
+  function clipRows(list){
+    if(!list || !list.length) return '<div class="empty">No clips in the last 7 days yet</div>';
+    return list.map(function(v,i){
+      return '<a class="row" href="'+v.url+'" target="_blank" rel="noopener">'
+        + '<div class="rk">'+(i+1)+'</div>'
+        + '<div class="mv"></div>'
+        + '<div class="thumb"><img loading="lazy" src="'+v.thumb+'" alt=""></div>'
+        + '<div class="meta"><div class="t">'+esc(v.title)+'</div>'
+        + '<div class="c"><b>'+esc(v.channel)+'</b> · '+dur(v.duration)+'</div></div>'
+        + '<div class="num"><div class="a">'+num(v.views)+'</div><div class="b">clip views</div></div>'
+        + '<div class="num speed"><div class="a">'+duration_ago(v.created)+'</div><div class="b">ago</div></div>'
+        + '</a>';
+    }).join("");
+  }
+
+  function duration_ago(iso){
+    var t = Date.parse(iso);
+    if(!t) return "—";
+    var h = (Date.now()-t)/36e5;
+    if(h < 24) return Math.round(h)+"h";
+    return Math.round(h/24)+"d";
+  }
+
+  function renderBoard(d){
+    var box = $("board-main");
+    var sort = $("sortTabs");
+    if(state.src === "live"){
+      sort.style.display = "none";
+      $("boardTitle").textContent = "Twitch — Live Now";
+      $("boardNote").textContent = "Viewers";
+      $("boardSub").textContent = "GTA 6 streams live right now · ranked by concurrent viewers";
+      box.innerHTML = liveRows(d.twitch && d.twitch.live);
+    } else if(state.src === "clips"){
+      sort.style.display = "none";
+      $("boardTitle").textContent = "Twitch — Top Clips";
+      $("boardNote").textContent = "7 days";
+      $("boardSub").textContent = "GTA 6 clips from the last 7 days · ranked by clip views";
+      box.innerHTML = clipRows(d.twitch && d.twitch.clips);
+    } else {
+      sort.style.display = "flex";
+      $("boardTitle").textContent = "GTA 6 — Top 20";
+      $("boardNote").textContent = "Views / hour";
+      $("boardSub").textContent = "Top 20 GTA 6 videos · ranked by views per hour";
+      box.innerHTML = rows(d.videos);
+    }
+  }
+
   // ---------- render ----------
   function render(d){
     state.data = d;
@@ -413,7 +488,7 @@
     $("st-streams").innerHTML = (s.twitchStreams||0) + '<span> live</span>';
 
     renderTicker(d);
-    $("board-main").innerHTML = rows(d.videos);
+    renderBoard(d);
 
     var badge = $("healthBadge");
     if(d.status === "ok"){ badge.textContent = "Data live"; badge.style.color = "var(--gold)"; }
@@ -442,6 +517,15 @@
       t.classList.add("on");
       state.sort = t.getAttribute("data-sort");
       if(state.data) render(state.data);
+    });
+  });
+
+  document.querySelectorAll("#srcTabs .tab").forEach(function(t){
+    t.addEventListener("click", function(){
+      document.querySelectorAll("#srcTabs .tab").forEach(function(x){ x.classList.remove("on"); });
+      t.classList.add("on");
+      state.src = t.getAttribute("data-src");
+      if(state.data) renderBoard(state.data);
     });
   });
 

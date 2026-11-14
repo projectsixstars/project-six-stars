@@ -268,11 +268,44 @@ def twitch():
         d = get_json("https://api.twitch.tv/helix/streams?first=100&game_id=%s" % gid, hdrs)
         rows = d.get("data", [])
         viewers = sum(int(s.get("viewer_count") or 0) for s in rows)
+        live = []
+        for s in sorted(rows, key=lambda x: int(x.get("viewer_count") or 0), reverse=True)[:20]:
+            th = (s.get("thumbnail_url") or "").replace("{width}", "320").replace("{height}", "180")
+            live.append({
+                "id": s.get("user_login") or s.get("user_id"),
+                "title": s.get("title") or "",
+                "channel": s.get("user_name") or "",
+                "viewers": int(s.get("viewer_count") or 0),
+                "started": s.get("started_at"),
+                "lang": s.get("language") or "",
+                "thumb": th,
+                "url": "https://twitch.tv/" + (s.get("user_login") or ""),
+            })
         H("twitch", True, "%s: %d streams, %d viewers" % (gname, len(rows), viewers))
-        return {"game": gname, "streams": len(rows), "viewers": viewers}
     except Exception as e:
         H("twitch.streams", False, str(e))
         return {}
+
+    clips = []
+    try:
+        start = (NOW - dt.timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        c = get_json("https://api.twitch.tv/helix/clips?game_id=%s&first=100&started_at=%s" % (gid, start), hdrs)
+        for x in sorted(c.get("data", []), key=lambda y: int(y.get("view_count") or 0), reverse=True)[:20]:
+            clips.append({
+                "id": x.get("id"),
+                "title": x.get("title") or "",
+                "channel": x.get("broadcaster_name") or "",
+                "views": int(x.get("view_count") or 0),
+                "created": x.get("created_at"),
+                "duration": int(float(x.get("duration") or 0)),
+                "thumb": (x.get("thumbnail_url") or ""),
+                "url": x.get("url") or "",
+            })
+        H("twitch.clips", bool(clips), "%d clips" % len(clips))
+    except Exception as e:
+        H("twitch.clips", False, str(e))
+
+    return {"game": gname, "streams": len(rows), "viewers": viewers, "live": live, "clips": clips}
 
 
 # ----------------------------------------------------------------------------
@@ -395,6 +428,7 @@ def main():
             "headlines": len(nw),
         },
         "videos": top,
+        "twitch": {"live": tw.get("live", []), "clips": tw.get("clips", [])},
         "news": nw[:12],
         "health": health,
     }
