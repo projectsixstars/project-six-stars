@@ -106,7 +106,7 @@ def youtube(prev):
             try:
                 u = (
                     "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video"
-                    "&maxResults=25&order=viewCount&publishedAfter=%s"
+                    "&maxResults=50&order=viewCount&publishedAfter=%s"
                     "&q=%s&key=%s" % (after, urllib.parse.quote(q), key)
                 )
                 d = get_json(u)
@@ -122,14 +122,13 @@ def youtube(prev):
         search_ts = time.time()
     else:
         cur = load("current.json", {}) or {}
-        vids = cur.get("videos", {})
-        for v in (vids.get("longform") or []) + (vids.get("shorts") or []):
+        for v in (cur.get("videos") or []):
             if v.get("id"):
                 ids.append(v["id"])
         H("youtube.search", bool(ids), "reused %d ids (quota save)" % len(ids))
         search_ts = last_search
 
-    ids = list(dict.fromkeys(ids))[:200]
+    ids = list(dict.fromkeys(ids))[:300]
     if not ids:
         return []
 
@@ -179,7 +178,7 @@ def youtube(prev):
         title = html.unescape(sn.get("title") or "")
         desc = (sn.get("description") or "").lower()
         views = int(st.get("viewCount") or 0)
-        is_short = dur <= 180 and (dur <= 60 or "#shorts" in desc or "#short" in desc.lower() or "shorts" in title.lower())
+        is_short = dur <= 60
         vel = None
         if prev_ts and v["id"] in prev_views:
             dv = views - int(prev_views[v["id"]])
@@ -202,22 +201,17 @@ def youtube(prev):
     keyf = lambda x: (x["velocity"] if x["velocity"] is not None else x["views"] / max(time_ago_hours(x), 1))
     videos.sort(key=keyf, reverse=True)
 
-    longform = [v for v in videos if not v["short"]][:10]
-    shorts = [v for v in videos if v["short"]][:10]
+    top = videos[:20]
 
     ranks = {}
-    for i, v in enumerate(longform):
-        ranks[v["id"]] = i + 1
-        v["rank"] = i + 1
-        v["rankDelta"] = (prev_ranks.get(v["id"]) or 0) - (i + 1) if prev_ranks.get(v["id"]) else 0
-    for i, v in enumerate(shorts):
-        ranks[v["id"]] = -(i + 1)
+    for i, v in enumerate(top):
         v["rank"] = i + 1
         prevr = prev_ranks.get(v["id"]) or 0
-        v["rankDelta"] = (abs(prevr) - (i + 1)) if prevr else 0
+        v["rankDelta"] = (prevr - (i + 1)) if prevr else 0
+        ranks[v["id"]] = i + 1
 
     meta = {"_search_ts": search_ts, "ranks": ranks}
-    return [longform, shorts, meta, sum(x["views"] for x in videos)]
+    return [top, meta, sum(x["views"] for x in videos)]
 
 
 def time_ago_hours(v):
@@ -276,26 +270,6 @@ def twitch():
 
 
 # ----------------------------------------------------------------------------
-# Finnhub - TTWO
-# ----------------------------------------------------------------------------
-def finnhub():
-    key = (os.environ.get("FINNHUB_KEY") or "").strip()
-    if not key:
-        H("finnhub", False, "FINNHUB_KEY missing")
-        return {}
-    try:
-        d = get_json("https://finnhub.io/api/v1/quote?symbol=TTWO&token=%s" % key)
-        if not d.get("c"):
-            H("finnhub", False, "empty quote")
-            return {}
-        H("finnhub", True, "$%s (%+.2f%%)" % (d.get("c"), d.get("dp") or 0))
-        return {"price": d.get("c"), "changePct": d.get("dp"), "prevClose": d.get("pc")}
-    except Exception as e:
-        H("finnhub", False, str(e))
-        return {}
-
-
-# ----------------------------------------------------------------------------
 # Google News RSS
 # ----------------------------------------------------------------------------
 def news():
@@ -316,7 +290,7 @@ def news():
             title = re.sub(r"<!\[CDATA\[|\]\]>", "", t.group(1)).strip()
             title = html.unescape(title)
             out.append({
-                "title": title[:200],
+                "title": title[:300],
                 "link": l.group(1).strip() if l else "",
                 "published": p.group(1).strip() if p else "",
             })
@@ -343,22 +317,20 @@ def norm(v, lo, hi):
 def main():
     prev = load("prev.json", {}) or {}
     yt = youtube(prev)
-    if len(yt) == 4:
-        longform, shorts, ytmeta, total_views = yt
+    if len(yt) == 3:
+        top, ytmeta, total_views = yt
     else:
-        longform, shorts, ytmeta, total_views = [], [], {}, 0
+        top, ytmeta, total_views = [], {}, 0
 
     tw = twitch()
-    fh = finnhub()
     nw = news()
 
     # --- components -----------------------------------------------------------
     attention = norm(total_views, 0, 300_000_000)          # tracked view mass
     live = norm(tw.get("viewers", 0), 0, 1_200_000)         # twitch viewers
-    market = norm(fh.get("changePct") or 0, -3.0, 6.0)      # TTWO move
     headlines = norm(len(nw), 0, 100)                       # news velocity
 
-    index = 0.40 * attention + 0.25 * live + 0.15 * market + 0.20 * headlines
+    index = 0.50 * attention + 0.30 * live + 0.20 * headlines
     index = round(clamp(index, 0, 100), 1)
 
     # --- 24h delta ------------------------------------------------------------
@@ -380,11 +352,8 @@ def main():
     # --- ranks / velocity bookkeeping ---------------------------------------
     ranks = {}
     views_map = {}
-    for v in longform:
+    for v in top:
         ranks[v["id"]] = v["rank"]
-        views_map[v["id"]] = v["views"]
-    for v in shorts:
-        ranks[v["id"]] = -v["rank"]
         views_map[v["id"]] = v["views"]
 
     save("prev.json", {
@@ -410,7 +379,6 @@ def main():
         "components": {
             "attention": round(attention, 1),
             "live": round(live, 1),
-            "market": round(market, 1),
             "headlines": round(headlines, 1),
         },
         "stats": {
@@ -418,10 +386,9 @@ def main():
             "twitchStreams": tw.get("streams", 0),
             "twitchGame": tw.get("game", ""),
             "trackedViews": total_views,
-            "stocks": fh,
             "headlines": len(nw),
         },
-        "videos": {"longform": longform, "shorts": shorts},
+        "videos": top,
         "news": nw[:12],
         "health": health,
     }
