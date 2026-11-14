@@ -1,1 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Project Six Stars — GTA 6 Live Index & Video Leaderboard</title>
+<meta name="description" content="The Six Stars Index tracks the GTA 6 launch in real time — YouTube view velocity, Twitch viewers, Take-Two stock and headline volume, plus the top-performing GTA 6 videos and Shorts, ranked by views per hour." />
+<link rel="canonical" href="https://project-six-stars.vercel.app/" />
+<meta name="robots" content="index,follow" />
+<meta name="theme-color" content="#08090b" />
 
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://project-six-stars.vercel.app/" />
+<meta property="og:site_name" content="Project Six Stars" />
+<meta property="og:title" content="Project Six Stars — GTA 6 Live Index" />
+<meta property="og:description" content="One number for the GTA 6 launch. Plus the top 10 videos and Shorts in the niche, ranked by views per hour." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Project Six Stars — GTA 6 Live Index" />
+<meta name="twitter:description" content="The pulse of the GTA 6 launch, measured live." />
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>★</text></svg>" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Project Six Stars — Market Eye Watcher",
+  "url": "https://project-six-stars.vercel.app/",
+  "description": "Live GTA 6 launch tracker and video leaderboard.",
+  "publisher": { "@type": "Organization", "name": "Project Six Stars" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Six Stars Index",
+  "description": "A 0-100 composite measure of GTA 6 launch attention built from YouTube view velocity, Twitch live viewers, Take-Two Interactive stock movement and global headline volume.",
+  "creator": { "@type": "Organization", "name": "Project Six Stars" },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "temporalCoverage": "2026-11-14/2026-12-31",
+  "isAccessibleForFree": true
+}
+</script>
+
+<style>
+  :root{
+    --bg:#08090b; --panel:#101014; --panel2:#15151b; --line:#22222b;
+    --text:#f3f3f6; --muted:#8b8b99; --dim:#5a5a68;
+    --gold:#f5c451; --gold-dim:#6b5522; --live:#ff4d4d; --green:#3ddc84;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(900px 420px at 50% -12%,rgba(245,196,81,.10),transparent 70%),radial-gradient(700px 500px at 92% 8%,rgba(255,77,77,.05),transparent 70%)}
+  .wrap{position:relative;z-index:1;max-width:1220px;margin:0 auto;padding:0 22px}
+  a{color:inherit;text-decoration:none}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 0 16px;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .stars{display:flex;gap:3px;font-size:13px;line-height:1}
+  .stars span{color:var(--gold-dim)}
+  .stars span:last-child{color:var(--gold);text-shadow:0 0 14px rgba(245,196,81,.75)}
+  .brand-txt{display:flex;flex-direction:column;line-height:1.15}
+  .brand-txt b{font-size:13px;letter-spacing:.22em;font-weight:700}
+  .brand-txt i{font-style:normal;font-size:10px;letter-spacing:.16em;color:var(--dim);margin-top:3px}
+  .status{display:flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.16em;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:7px 13px;background:var(--panel)}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulse 2.4s infinite}
+  .dot.live{background:var(--live);box-shadow:0 0 10px var(--live)}
+  .dot.bad{background:var(--live);box-shadow:0 0 10px var(--live);animation:none}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  .ticker{border-bottom:1px solid var(--line);background:#0b0b0f;overflow:hidden;white-space:nowrap;position:relative}
+  .ticker::after{content:"";position:absolute;top:0;right:0;bottom:0;width:90px;background:linear-gradient(90deg,transparent,var(--bg))}
+  .ticker-track{display:inline-flex;animation:slide 42s linear infinite}
+  .ticker-track span{font-size:11px;letter-spacing:.1em;color:var(--muted);padding:9px 0;text-transform:uppercase}
+  .ticker-track span b{color:var(--text);font-weight:600}
+  .ticker-track span em{color:var(--gold);font-style:normal}
+  .ticker-track span u{color:var(--green);text-decoration:none}
+  .sep{color:#33333d;padding:0 18px}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  .hero{padding:52px 0 40px;text-align:center}
+  .eyebrow{font-size:10px;letter-spacing:.34em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:22px}
+  .eyebrow::before,.eyebrow::after{content:"";height:1px;width:38px;background:var(--line)}
+  .index{font-size:clamp(78px,15vw,168px);font-weight:800;letter-spacing:-.05em;line-height:.86;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#fff 18%,#b9b9c6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 90px rgba(245,196,81,.14)}
+  .index small{font-size:.26em;letter-spacing:-.02em;-webkit-text-fill-color:var(--muted);color:var(--muted);font-weight:600}
+  .delta{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;letter-spacing:.04em;color:var(--green);font-weight:600;flex-wrap:wrap;justify-content:center}
+  .delta .pill{background:rgba(61,220,132,.10);border:1px solid rgba(61,220,132,.22);padding:4px 10px;border-radius:99px;font-size:12px}
+  .delta .pill.neg{background:rgba(255,77,77,.10);border-color:rgba(255,77,77,.25);color:var(--live)}
+  .stamp{margin-top:14px;font-size:11px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
+  .stamp.bad{color:var(--live)}
+
+  .count{display:flex;justify-content:center;gap:10px;margin-top:34px;flex-wrap:wrap}
+  .unit{min-width:86px;padding:14px 10px 12px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--panel2),var(--panel))}
+  .unit b{display:block;font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .unit i{display:block;font-style:normal;font-size:9px;letter-spacing:.22em;color:var(--dim);margin-top:6px}
+  .count .target{flex-basis:100%;font-size:10px;letter-spacing:.22em;color:var(--dim);margin-top:6px;text-transform:uppercase}
+  .live-box{display:none;margin-top:34px;justify-content:center}
+  .live-box b{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.3em;color:var(--live);border:1px solid rgba(255,77,77,.3);background:rgba(255,77,77,.07);padding:12px 22px;border-radius:99px}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:44px}
+  .stat{background:var(--panel);padding:18px 18px 16px}
+  .stat:hover{background:var(--panel2)}
+  .stat .k{font-size:9.5px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .stat .v{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:9px 0 8px;font-variant-numeric:tabular-nums}
+  .stat .v span{font-size:13px;color:var(--muted);font-weight:500;margin-left:3px}
+  .stat svg{display:block;width:100%;height:26px;opacity:.9}
+  .up{color:var(--green)} .down{color:var(--live)} .flat{color:var(--muted)}
+  .stat .k em{font-style:normal;font-size:10px;letter-spacing:.06em}
+
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:16px}
+  .sec-head h2{font-size:13px;letter-spacing:.26em;font-weight:700;text-transform:uppercase}
+  .sec-head h2 small{display:block;font-size:10px;letter-spacing:.12em;color:var(--dim);font-weight:400;margin-top:6px;text-transform:none}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .tab{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);background:var(--panel);padding:7px 11px;border-radius:99px;cursor:pointer;transition:.15s;font-family:inherit}
+  .tab:hover{color:var(--text);border-color:#33333f}
+  .tab.on{background:var(--gold);border-color:var(--gold);color:#111;font-weight:700}
+
+  .boards{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:52px}
+  .board{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+  .board-top{display:flex;align-items:center;justify-content:space-between;padding:15px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#15151b,#101014);gap:10px}
+  .board-top h3{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:8px}
+  .board-top h3 svg{width:13px;height:13px;fill:var(--gold)}
+  .board-top span{font-size:9.5px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;text-align:right}
+
+  .row{display:grid;grid-template-columns:26px 22px 54px minmax(0,1fr) 62px 58px;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid #191920;transition:background .14s}
+  .row:last-child{border-bottom:0}
+  .row:hover{background:#17171e}
+  .rk{font-size:13px;font-weight:700;color:var(--dim);font-variant-numeric:tabular-nums;text-align:center}
+  .row:nth-child(-n+3) .rk{color:var(--gold)}
+  .mv{font-size:9px;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .thumb{width:54px;height:32px;border-radius:5px;overflow:hidden;background:#1d1d24;border:1px solid #2b2b36;display:block;position:relative}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9) contrast(1.05)}
+  .thumb::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.12)}
+  .meta{min-width:0}
+  .meta .t{font-size:12.5px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}
+  .meta .c{font-size:10px;color:var(--dim);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .meta .c b{color:var(--muted);font-weight:500}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .num .a{font-size:12.5px;font-weight:700;letter-spacing:-.01em}
+  .num .b{font-size:9.5px;color:var(--dim);margin-top:3px}
+  .num.speed .a{color:var(--gold)}
+  .empty{padding:34px 18px;text-align:center;font-size:11px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+
+  .cta{border:1px solid var(--line);border-radius:16px;padding:34px 30px;text-align:center;background:radial-gradient(600px 200px at 50% 0%,rgba(245,196,81,.09),transparent 70%),linear-gradient(180deg,#131318,#0e0e12);margin-bottom:44px}
+  .cta h4{font-size:20px;letter-spacing:-.02em;margin-bottom:8px}
+  .cta p{font-size:12.5px;color:var(--muted);margin-bottom:20px}
+  .form{display:flex;gap:8px;max-width:440px;margin:0 auto}
+  .form input{flex:1;min-width:0;background:#0a0a0e;border:1px solid #2a2a35;color:var(--text);border-radius:9px;padding:12px 14px;font-size:12.5px;outline:none;font-family:inherit}
+  .form input:focus{border-color:var(--gold)}
+  .form button{background:var(--gold);color:#111;border:0;border-radius:9px;padding:12px 20px;font-size:11px;letter-spacing:.14em;font-weight:800;cursor:pointer;text-transform:uppercase;font-family:inherit;transition:.15s}
+  .form button:hover{background:#ffd571}
+
+  .prose{border-top:1px solid var(--line);padding:52px 0 10px;margin-bottom:40px}
+  .prose h2{font-size:19px;letter-spacing:-.01em;margin-bottom:12px}
+  .prose h3{font-size:13px;letter-spacing:.02em;margin:26px 0 8px}
+  .prose p{font-size:13px;line-height:1.75;color:var(--muted);max-width:760px}
+  .prose p + p{margin-top:10px}
+  .prose b{color:var(--text);font-weight:600}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px}
+  .bar{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);margin:7px 0}
+  .bar i{font-style:normal;width:90px;color:var(--dim);font-size:11px}
+  .bar .t{flex:1;height:5px;border-radius:99px;background:#1b1b24;overflow:hidden}
+  .bar .t s{display:block;height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));text-decoration:none}
+
+  footer{border-top:1px solid var(--line);padding:22px 0 40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer p{font-size:10.5px;color:var(--dim);line-height:1.7;max-width:660px}
+  footer p b{color:var(--muted);font-weight:600}
+  .badge{font-size:9px;letter-spacing:.2em;color:var(--gold);border:1px solid var(--gold-dim);padding:6px 10px;border-radius:99px;text-transform:uppercase;align-self:flex-start}
+
+  @media (max-width:900px){
+    .boards{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .row{grid-template-columns:24px 20px 48px minmax(0,1fr) 56px}
+    .row .num.speed{display:none}
+    .thumb{width:48px;height:29px}
+    .grid2{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    .hero{padding:38px 0 30px}
+    .unit{min-width:70px;padding:11px 8px 10px}
+    .unit b{font-size:24px}
+    .brand-txt b{font-size:11px}
+    .status{display:none}
+    .sec-head{flex-direction:column;align-items:flex-start}
+    .form{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <a class="brand" href="/">
+      <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <div class="brand-txt"><b>PROJECT SIX STARS</b><i>MARKET EYE WATCHER</i></div>
+    </a>
+    <div class="status"><i class="dot" id="dot"></i><span id="statusTxt">LOADING</span></div>
+  </header>
+</div>
+
+<div class="ticker">
+  <div class="ticker-track" id="track">
+    <span>LOADING LIVE DATA</span><span class="sep">/</span>
+    <span>GTA 6 LAUNCH <b>18 NOV 2026 · 16:30 IST</b></span><span class="sep">/</span>
+    <span><em>SIX STARS INDEX</em> CONNECTING</span><span class="sep">/</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">The pulse of the GTA 6 launch</div>
+    <h1 class="index" style="font-weight:800"><span id="idx">--</span><small>/100</small></h1>
+    <div class="delta"><span class="pill" id="delta">provisional</span> SIX STARS INDEX</div>
+    <div class="stamp" id="stamp">Connecting to data pipeline…</div>
+
+    <div class="count" id="countdown">
+      <div class="unit"><b id="d">--</b><i>DAYS</i></div>
+      <div class="unit"><b id="h">--</b><i>HOURS</i></div>
+      <div class="unit"><b id="m">--</b><i>MINUTES</i></div>
+      <div class="unit"><b id="s">--</b><i>SECONDS</i></div>
+      <div class="target">Until unlock · 18 Nov 2026 · 16:30 IST</div>
+    </div>
+    <div class="live-box" id="livebox"><b><i class="dot live"></i> LIVE — THE GAME IS OUT</b></div>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><div class="k">TWITCH VIEWERS</div><div class="v" id="st-twitch">--</div>
+      <svg viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" stroke="#f5c451" stroke-width="1.6" points="0,20 12,18 24,21 36,15 48,16 60,11 72,13 84,7 100,4"/></svg></div>
+    <div class="stat"><div class="k">TRACKED VIEWS</div><div class="v" id="st-views">--</div>
+      <svg viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" stroke="#f5c451" stroke-width="1.6" points="0,22 14,20 28,18 42,17 56,13 70,11 84,8 100,6"/></svg></div>
+    <div class="stat"><div class="k">HEADLINES</div><div class="v" id="st-news">--</div>
+      <svg viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" stroke="#f5c451" stroke-width="1.6" points="0,18 10,22 22,16 34,19 46,12 58,14 70,9 84,10 100,3"/></svg></div>
+    <div class="stat"><div class="k">TTWO</div><div class="v" id="st-stock">--</div>
+      <svg viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" stroke="#3ddc84" stroke-width="1.6" points="0,21 12,19 24,20 36,14 48,15 60,10 72,12 84,6 100,5"/></svg></div>
+  </section>
+
+  <section class="sec-head">
+    <h2>Starboard<small>GTA 6 video leaderboard · ranked by views per hour</small></h2>
+    <div class="tabs" id="sortTabs">
+      <div class="tab on" data-sort="velocity">Velocity</div>
+      <div class="tab" data-sort="views">Views</div>
+      <div class="tab" data-sort="fresh">Newest</div>
+    </div>
+  </section>
+
+  <section class="boards">
+    <div class="board">
+      <div class="board-top"><h3><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/></svg> Long-form</h3><span>Top 10</span></div>
+      <div id="board-long"><div class="empty">Loading…</div></div>
+    </div>
+    <div class="board">
+      <div class="board-top"><h3><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg> Shorts</h3><span>Top 10</span></div>
+      <div id="board-short"><div class="empty">Loading…</div></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h4>Get the Index the moment it moves.</h4>
+    <p>One email when GTA 6 launches. No noise, no spam — just the number.</p>
+    <div class="form">
+      <input type="email" placeholder="you@email.com" aria-label="Email address" />
+      <button type="button" onclick="this.textContent='SOON'">Notify me</button>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>What is the Six Stars Index?</h2>
+    <p>The Six Stars Index is a single number between 0 and 100 that measures how much attention GTA 6 is receiving right now. It is built from four live signals and refreshed every fifteen minutes. A reading near 100 means the game is at the peak of everything we are able to observe; a reading near 0 means the conversation has gone quiet.</p>
+    <p>It exists because no single metric tells the story. YouTube views climb for days. Twitch spikes in minutes and collapses just as fast. Headlines cluster around announcements. The Index puts all of it on one scale so you can tell, at a glance, whether the wave is still building.</p>
+
+    <div class="grid2">
+      <div>
+        <h3>How it is calculated</h3>
+        <div class="bar"><i>Attention</i><span class="t"><s style="width:40%"></s></span>40%</div>
+        <div class="bar"><i>Live audience</i><span class="t"><s style="width:25%"></s></span>25%</div>
+        <div class="bar"><i>Headlines</i><span class="t"><s style="width:20%"></s></span>20%</div>
+        <div class="bar"><i>Market</i><span class="t"><s style="width:15%"></s></span>15%</div>
+        <p style="margin-top:14px;font-size:12px">Each signal is normalised to a 0-100 scale against a rolling baseline, then weighted and summed. The full method is open — if a number looks wrong, the arithmetic is on this page.</p>
+      </div>
+      <div>
+        <h3>Data sources</h3>
+        <p style="font-size:12px">YouTube Data API v3 for video statistics and search. Twitch Helix for live viewers and stream counts. Finnhub for Take-Two Interactive (TTWO) price data. Google News RSS for headline volume. All figures are fetched automatically and published as open JSON.</p>
+        <p style="font-size:12px">Rankings on the Starboard are ordered by <b>views per hour</b> since publish, not total views — so a video from a channel with 40,000 subscribers can outrank a channel with four million.</p>
+      </div>
+    </div>
+
+    <h3>When does GTA 6 release?</h3>
+    <p>GTA 6 unlocks on <b>18 November 2026 at 16:30 IST</b> (11:00 UTC) — 6:00 AM in New York and 3:00 AM in Los Angeles. Europe is at midday and India at prime time, while the largest audience on earth is still asleep. That six-hour gap is the quietest window of the launch, and usually the best time to publish.</p>
+
+    <h3>Why the leaderboard sorts by velocity</h3>
+    <p>Sorting GTA 6 videos by total views returns the same five channels every day, because their back catalogue is enormous. Views per hour measures what is happening <em>now</em>. It is the difference between a list of the famous and a list of the current.</p>
+  </section>
+
+  <footer>
+    <p><b>Project Six Stars</b> is an independent fan project. Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. GTA and Grand Theft Auto are trademarks of their respective owners. All video data is provided via the official YouTube Data API and links back to YouTube; no third-party footage is hosted here.</p>
+    <div class="badge" id="healthBadge">Connecting</div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var DATA_URL = "data/current.json";
+  var state = { data:null, sort:"velocity" };
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  function num(n){
+    if(n === null || n === undefined || isNaN(n)) return "—";
+    if(n >= 1e9) return (n/1e9).toFixed(1)+"B";
+    if(n >= 1e6) return (n/1e6).toFixed(1)+"M";
+    if(n >= 1e3) return Math.round(n/1e3)+"K";
+    return String(Math.round(n));
+  }
+  function esc(s){
+    return String(s||"").replace(/[&<>"']/g, function(c){
+      return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];
+    });
+  }
+  function ageH(iso){
+    var t = Date.parse(iso);
+    if(!t) return 0;
+    return Math.max((Date.now()-t)/36e5, 0.2);
+  }
+  function vel(v){
+    if(v.velocity !== null && v.velocity !== undefined) return v.velocity;
+    return Math.round(v.views / ageH(v.published));
+  }
+
+  // ---------- countdown ----------
+  var LAUNCH = Date.parse("2026-11-18T16:30:00+05:30");
+  var cd = $("countdown"), lb = $("livebox"), st = $("statusTxt"), dot = $("dot");
+  function pad(n){ return String(n).padStart(2,"0"); }
+  function tick(){
+    var diff = LAUNCH - Date.now();
+    if(diff <= 0){
+      cd.style.display = "none";
+      lb.style.display = "flex";
+      st.textContent = "LIVE";
+      dot.classList.add("live");
+      return;
+    }
+    $("d").textContent = pad(Math.floor(diff/864e5));
+    $("h").textContent = pad(Math.floor(diff%864e5/36e5));
+    $("m").textContent = pad(Math.floor(diff%36e5/6e4));
+    $("s").textContent = pad(Math.floor(diff%6e4/1e3));
+  }
+  tick(); setInterval(tick,1000);
+
+  // ---------- ticker ----------
+  function renderTicker(d){
+    var s = d.stats || {}, items = [];
+    items.push('<span><em>SIX STARS INDEX</em> <b>'+d.index.toFixed(1)+'</b>'+(d.delta!==null&&d.delta!==undefined?' <u>'+(d.delta>=0?'▲ +':'▼ ')+d.delta+'</u>':'')+'</span>');
+    if(s.twitchViewers) items.push('<span>TWITCH VIEWERS <b>'+num(s.twitchViewers)+'</b> · '+num(s.twitchStreams)+' streams</span>');
+    if(s.stocks && s.stocks.price) items.push('<span>TTWO <b>$'+s.stocks.price.toFixed(2)+'</b> <u>'+(s.stocks.changePct>=0?'▲ +':'▼ ')+(s.stocks.changePct||0).toFixed(2)+'%</u></span>');
+    items.push('<span>TRACKED VIEWS <b>'+num(s.trackedViews)+'</b></span>');
+    items.push('<span>HEADLINES <b>'+num(s.headlines)+'</b> / 24h</span>');
+    if(d.news && d.news[0]) items.push('<span>'+esc(d.news[0].title).slice(0,90)+'</span>');
+    var seq = items.join('<span class="sep">/</span>');
+    var track = $("track");
+    track.innerHTML = seq + '<span class="sep">/</span>' + seq;
+  }
+
+  // ---------- boards ----------
+  function rows(list){
+    list = (list||[]).slice().sort(function(a,b){
+      if(state.sort === "views") return b.views - a.views;
+      if(state.sort === "fresh") return Date.parse(b.published) - Date.parse(a.published);
+      return vel(b) - vel(a);
+    }).slice(0,10);
+
+    if(!list.length) return '<div class="empty">No data yet — pipeline warming up</div>';
+
+    return list.map(function(v,i){
+      var d = v.rankDelta || 0;
+      var mv = d > 0 ? '<span class="up">▲'+d+'</span>' : (d < 0 ? '<span class="down">▼'+Math.abs(d)+'</span>' : '<span class="flat">—</span>');
+      var th = 'https://i.ytimg.com/vi/'+v.id+'/mqdefault.jpg';
+      return '<a class="row" href="https://www.youtube.com/watch?v='+v.id+'" target="_blank" rel="noopener">'
+        + '<div class="rk">'+(i+1)+'</div>'
+        + '<div class="mv">'+mv+'</div>'
+        + '<div class="thumb"><img loading="lazy" src="'+th+'" alt=""></div>'
+        + '<div class="meta"><div class="t">'+esc(v.title)+'</div>'
+        + '<div class="c"><b>'+esc(v.channel)+'</b>'+(v.subs?' · '+num(v.subs)+' subs':'')+'</div></div>'
+        + '<div class="num"><div class="a">'+num(v.views)+'</div><div class="b">'+Math.round(ageH(v.published))+'h old</div></div>'
+        + '<div class="num speed"><div class="a">'+num(vel(v))+'</div><div class="b">views/hr</div></div>'
+        + '</a>';
+    }).join("");
+  }
+
+  // ---------- render ----------
+  function render(d){
+    state.data = d;
+    $("idx").textContent = (d.index||0).toFixed(1);
+    var dl = $("delta");
+    if(d.delta === null || d.delta === undefined){
+      dl.textContent = d.mode === "live" ? "live" : "provisional";
+      dl.className = "pill";
+    } else {
+      dl.textContent = (d.delta >= 0 ? "▲ +" : "▼ ") + d.delta + " · 24H";
+      dl.className = "pill" + (d.delta < 0 ? " neg" : "");
+    }
+    $("stamp").textContent = "Updated " + d.updated;
+    $("stamp").className = "stamp" + (d.status !== "ok" ? " bad" : "");
+
+    var s = d.stats || {};
+    $("st-twitch").innerHTML = s.twitchViewers ? num(s.twitchViewers) : "—";
+    $("st-views").innerHTML  = s.trackedViews ? num(s.trackedViews) : "—";
+    $("st-news").innerHTML   = (s.headlines||0) + '<span> / 24h</span>';
+    $("st-stock").innerHTML  = (s.stocks && s.stocks.price)
+      ? '$'+s.stocks.price.toFixed(2)+'<span> '+(s.stocks.changePct>=0?"+":"")+(s.stocks.changePct||0).toFixed(1)+'%</span>'
+      : "—";
+
+    renderTicker(d);
+    $("board-long").innerHTML  = rows(d.videos && d.videos.longform);
+    $("board-short").innerHTML = rows(d.videos && d.videos.shorts);
+
+    var badge = $("healthBadge");
+    if(d.status === "ok"){ badge.textContent = "Data live"; badge.style.color = "var(--gold)"; }
+    else { badge.textContent = "Partial data"; badge.style.color = "var(--live)"; }
+
+    if(d.mode === "live"){ dot.classList.add("live"); st.textContent = "LIVE"; }
+  }
+
+  function fail(msg){
+    $("stamp").textContent = "PIPELINE NOT RESPONDING — " + msg;
+    $("stamp").className = "stamp bad";
+    $("healthBadge").textContent = "No data";
+    $("healthBadge").style.color = "var(--live)";
+  }
+
+  function load(){
+    fetch(DATA_URL + "?t=" + Date.now(), {cache:"no-store"})
+      .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+      .then(render)
+      .catch(function(e){ fail(e.message); });
+  }
+
+  document.querySelectorAll("#sortTabs .tab").forEach(function(t){
+    t.addEventListener("click", function(){
+      document.querySelectorAll("#sortTabs .tab").forEach(function(x){ x.classList.remove("on"); });
+      t.classList.add("on");
+      state.sort = t.getAttribute("data-sort");
+      if(state.data) render(state.data);
+    });
+  });
+
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+</body>
+</html>

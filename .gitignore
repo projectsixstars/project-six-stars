@@ -1,0 +1,7 @@
+DOWNLOADS/
+Market Eye Watcher/
+__pycache__/
+*.pyc
+*.tmp
+.DS_Store
+Thumbs.db
