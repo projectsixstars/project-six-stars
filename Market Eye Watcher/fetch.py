@@ -122,8 +122,11 @@ def youtube(prev):
         search_ts = time.time()
     else:
         cur = load("current.json", {}) or {}
-        for v in (cur.get("videos") or []):
-            if v.get("id"):
+        vids = cur.get("videos")
+        if isinstance(vids, dict):  # legacy schema: {longform:[], shorts:[]}
+            vids = (vids.get("longform") or []) + (vids.get("shorts") or [])
+        for v in (vids or []):
+            if isinstance(v, dict) and v.get("id"):
                 ids.append(v["id"])
         H("youtube.search", bool(ids), "reused %d ids (quota save)" % len(ids))
         search_ts = last_search
