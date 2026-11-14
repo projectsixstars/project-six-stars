@@ -98,7 +98,16 @@ def youtube(prev):
 
     ids = []
     last_search = float((prev or {}).get("_search_ts") or 0)
-    need_search = (time.time() - last_search) > 5400  # search at most every 90 min
+
+    # reuse the ids we already track, unless the pool is too thin
+    cur = load("current.json", {}) or {}
+    vids = cur.get("videos")
+    if isinstance(vids, dict):  # legacy schema: {longform:[], shorts:[]}
+        vids = (vids.get("longform") or []) + (vids.get("shorts") or [])
+    reuse = [v["id"] for v in (vids or []) if isinstance(v, dict) and v.get("id")]
+    reuse = list(dict.fromkeys(reuse))[:300]
+
+    need_search = (time.time() - last_search) > 5400 or len(reuse) < 100
 
     if need_search:
         after = (NOW - dt.timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -121,13 +130,7 @@ def youtube(prev):
         H("youtube.search", bool(ids), "%d ids / %d queries" % (len(set(ids)), len(QUERIES)))
         search_ts = time.time()
     else:
-        cur = load("current.json", {}) or {}
-        vids = cur.get("videos")
-        if isinstance(vids, dict):  # legacy schema: {longform:[], shorts:[]}
-            vids = (vids.get("longform") or []) + (vids.get("shorts") or [])
-        for v in (vids or []):
-            if isinstance(v, dict) and v.get("id"):
-                ids.append(v["id"])
+        ids = reuse
         H("youtube.search", bool(ids), "reused %d ids (quota save)" % len(ids))
         search_ts = last_search
 
