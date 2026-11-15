@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Project Six Stars — GTA 6 Live Index & Video Leaderboard</title>
-<meta name="description" content="The Six Stars Index tracks the GTA 6 launch in real time — YouTube view velocity, Twitch live viewers and headline volume, plus the top 20 GTA 6 videos ranked by views per hour." />
+<meta name="description" content="The Six Stars Index tracks the GTA 6 launch in real time — YouTube views and Twitch live viewers, plus the top 20 GTA 6 videos ranked by views per hour." />
 <link rel="canonical" href="https://project-six-stars.vercel.app/" />
 <meta name="robots" content="index,follow" />
 <meta name="theme-color" content="#08090b" />
@@ -35,7 +35,7 @@
   "@context": "https://schema.org",
   "@type": "Dataset",
   "name": "Six Stars Index",
-  "description": "A 0-100 composite measure of GTA 6 launch attention built from YouTube view velocity, Twitch live viewers and global headline volume.",
+  "description": "A 0-100 composite measure of GTA 6 launch attention built from YouTube views and Twitch live viewers.",
   "creator": { "@type": "Organization", "name": "Project Six Stars" },
   "license": "https://creativecommons.org/licenses/by/4.0/",
   "temporalCoverage": "2026-11-14/2026-12-31",
@@ -99,7 +99,7 @@
   .live-box{display:none;margin-top:34px;justify-content:center}
   .live-box b{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.3em;color:var(--live);border:1px solid rgba(255,77,77,.3);background:rgba(255,77,77,.07);padding:12px 22px;border-radius:99px}
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:44px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:44px}
   .stat{background:var(--panel);padding:18px 18px 16px}
   .stat:hover{background:var(--panel2)}
   .stat .k{font-size:9.5px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;gap:8px}
@@ -173,6 +173,7 @@
   @media (max-width:900px){
     .boards{grid-template-columns:1fr}
     .stats{grid-template-columns:repeat(2,1fr)}
+    .stat:nth-child(3){grid-column:1/-1}
     .row{grid-template-columns:24px 20px 48px minmax(0,1fr) 56px}
     .row .num.speed{display:none}
     .thumb{width:48px;height:29px}
@@ -232,8 +233,6 @@
       <svg viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" stroke="#f5c451" stroke-width="1.6" points="0,20 12,18 24,21 36,15 48,16 60,11 72,13 84,7 100,4"/></svg></div>
     <div class="stat"><div class="k">TRACKED VIEWS</div><div class="v" id="st-views">--</div>
       <svg viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" stroke="#f5c451" stroke-width="1.6" points="0,22 14,20 28,18 42,17 56,13 70,11 84,8 100,6"/></svg></div>
-    <div class="stat"><div class="k">HEADLINES</div><div class="v" id="st-news">--</div>
-      <svg viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" stroke="#f5c451" stroke-width="1.6" points="0,18 10,22 22,16 34,19 46,12 58,14 70,9 84,10 100,3"/></svg></div>
     <div class="stat"><div class="k">STREAMS LIVE</div><div class="v" id="st-streams">--</div>
       <svg viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" stroke="#3ddc84" stroke-width="1.6" points="0,21 12,19 24,20 36,14 48,15 60,10 72,12 84,6 100,5"/></svg></div>
   </section>
@@ -270,26 +269,27 @@
 
   <section class="prose">
     <h2>What is the Six Stars Index?</h2>
-    <p>The Six Stars Index is a single number between 0 and 100 that measures how much attention GTA 6 is receiving right now. It is built from three live signals and refreshed every fifteen minutes. A reading near 100 means the game is at the peak of everything we are able to observe; a reading near 0 means the conversation has gone quiet.</p>
-    <p>It exists because no single metric tells the story. YouTube views climb for days. Twitch spikes in minutes and collapses just as fast. Headlines cluster around announcements. The Index puts all of it on one scale so you can tell, at a glance, whether the wave is still building.</p>
+    <p>The Six Stars Index is a single number between 0 and 100 that measures how much attention GTA 6 is receiving right now. It is built from two live signals and refreshed every fifteen minutes. A reading near 100 means the game is at the peak of everything we are able to observe; a reading near 0 means the conversation has gone quiet.</p>
+    <p>It exists because neither signal means much on its own. YouTube views climb for days at a time. Twitch spikes in minutes and collapses just as fast. The Index puts both on one scale so you can tell, at a glance, whether the wave is still building.</p>
 
     <div class="grid2">
       <div>
         <h3>How it is calculated</h3>
         <div class="bar"><i>Attention</i><span class="t"><s style="width:50%"></s></span>50%</div>
-        <div class="bar"><i>Live audience</i><span class="t"><s style="width:30%"></s></span>30%</div>
-        <div class="bar"><i>Headlines</i><span class="t"><s style="width:20%"></s></span>20%</div>
-        <p style="margin-top:14px;font-size:12px">Each signal is normalised to a 0-100 scale against a rolling baseline, then weighted and summed. The full method is open — if a number looks wrong, the arithmetic is on this page.</p>
+        <div class="bar"><i>Live audience</i><span class="t"><s style="width:50%"></s></span>50%</div>
+        <p style="margin-top:14px;font-size:12px">Attention is the total views across the GTA 6 videos we track on YouTube. Live audience is the number of people watching GTA 6 on Twitch. Each is scored 0-100 on a log scale, then the two are averaged. Attention runs from 10 million views to 3 billion; live audience from 50 viewers to one million. Below those floors a signal scores zero, and only launch-night volume reaches 100.</p>
+        <p style="margin-top:10px;font-size:12px">A straight line would have pinned Twitch at zero all week and YouTube at 100 the moment the pre-loads landed. On a log scale a few hundred viewers still registers, and 100 is still reserved for the real thing. The arithmetic is on this page — if a number looks wrong, you can check it.</p>
       </div>
       <div>
         <h3>Data sources</h3>
-        <p style="font-size:12px">YouTube Data API v3 for video statistics and search. Twitch Helix for live viewers and stream counts. Google News RSS for headline volume. All figures are fetched automatically and published as open JSON.</p>
+        <p style="font-size:12px">YouTube Data API v3 for video statistics and search. Twitch Helix for live viewers and stream counts. All figures are fetched automatically and published as open JSON.</p>
+        <p style="font-size:12px">GTA 6 headlines are still collected from Google News RSS and published in the same JSON, but they are not part of the score.</p>
         <p style="font-size:12px">Rankings on the Starboard are ordered by <b>views per hour</b> since publish, not total views — so a video from a channel with 40,000 subscribers can outrank a channel with four million.</p>
       </div>
     </div>
 
     <h3>When does GTA 6 release?</h3>
-    <p>GTA 6 unlocks on <b>18 November 2026 at 16:30 IST</b> (11:00 UTC) — 6:00 AM in New York and 3:00 AM in Los Angeles. Europe is at midday and India at prime time, while the largest audience on earth is still asleep. That six-hour gap is the quietest window of the launch, and usually the best time to publish.</p>
+    <p>GTA 6 unlocks on <b>18 November 2026 at 16:30 IST</b> (11:00 UTC). That is 6:00 AM in New York, 3:00 AM in Los Angeles, midday in Berlin, and already midnight on the 19th in New Zealand. The US — the biggest market for the game — sleeps through the first six hours, which makes that stretch the quietest window of the launch, and usually the best time to publish.</p>
 
     <h3>Why the leaderboard sorts by velocity</h3>
     <p>Sorting GTA 6 videos by total views returns the same five channels every day, because their back catalogue is enormous. Views per hour measures what is happening <em>now</em>. It is the difference between a list of the famous and a list of the current.</p>
@@ -357,7 +357,6 @@
     if(s.twitchViewers) items.push('<span>TWITCH VIEWERS <b>'+num(s.twitchViewers)+'</b> · '+num(s.twitchStreams)+' streams</span>');
     if(s.twitchStreams) items.push('<span>STREAMS LIVE <b>'+num(s.twitchStreams)+'</b></span>');
     items.push('<span>TRACKED VIEWS <b>'+num(s.trackedViews)+'</b></span>');
-    items.push('<span>HEADLINES <b>'+num(s.headlines)+'</b> / 24h</span>');
     if(d.news && d.news[0]) items.push('<span>'+esc(d.news[0].title).slice(0,90)+'</span>');
     var seq = items.join('<span class="sep">/</span>');
     var track = $("track");
@@ -484,7 +483,6 @@
     var s = d.stats || {};
     $("st-twitch").innerHTML = s.twitchViewers ? num(s.twitchViewers) : "—";
     $("st-views").innerHTML  = s.trackedViews ? num(s.trackedViews) : "—";
-    $("st-news").innerHTML   = (s.headlines||0) + '<span> / 24h</span>';
     $("st-streams").innerHTML = (s.twitchStreams||0) + '<span> live</span>';
 
     renderTicker(d);

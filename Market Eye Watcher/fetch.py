@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import html
 import json
+import math
 import os
 import re
 import time
@@ -26,6 +27,7 @@ IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
 NOW = dt.datetime.now(dt.timezone.utc)
 LAUNCH = dt.datetime(2026, 11, 18, 11, 0, tzinfo=dt.timezone.utc)  # 16:30 IST
 SITE = "https://project-six-stars.vercel.app"
+FORMULA = 2  # bump whenever the index maths change
 
 health = {}
 
@@ -353,6 +355,30 @@ def norm(v, lo, hi):
     return clamp((v - lo) / (hi - lo) * 100.0)
 
 
+def lognorm(v, lo, hi):
+    """0-100 on a log scale.
+
+    Both signals move across orders of magnitude - a few hundred Twitch
+    viewers before launch, a million on the night. A linear axis pins the
+    score at 0 for months and at 100 the moment it gets busy. Log keeps the
+    whole range readable: small real moves register, and the ceiling is only
+    reached at genuine launch-volume.
+    """
+    try:
+        v = float(v)
+    except (TypeError, ValueError):
+        return 0.0
+    if v <= lo or hi <= lo:
+        return 0.0
+    return clamp(math.log10(v / lo) / math.log10(hi / lo) * 100.0)
+
+
+def r1(x):
+    """Round half up to one decimal, so published components and the index
+    agree when a reader adds them up."""
+    return math.floor(x * 10.0 + 0.5) / 10.0
+
+
 def main():
     prev = load("prev.json", {}) or {}
     yt = youtube(prev)
@@ -365,18 +391,26 @@ def main():
     nw = news()
 
     # --- components -----------------------------------------------------------
-    attention = norm(total_views, 0, 300_000_000)          # tracked view mass
-    live = norm(tw.get("viewers", 0), 0, 1_200_000)         # twitch viewers
-    headlines = norm(len(nw), 0, 100)                       # news velocity
+    # Log scale, because both numbers span orders of magnitude. Floors sit at
+    # "nothing is happening"; ceilings sit at real launch volume, so 100 only
+    # lands when it is genuinely earned.
+    attention = r1(lognorm(total_views, 10_000_000, 3_000_000_000))   # tracked YouTube views
+    live = r1(lognorm(tw.get("viewers", 0), 50, 1_000_000))           # Twitch concurrents
+    headlines = norm(len(nw), 0, 100)                                 # news volume (collected, not scored)
 
-    index = 0.50 * attention + 0.30 * live + 0.20 * headlines
-    index = round(clamp(index, 0, 100), 1)
+    # News is no longer part of the score. Attention and live split the index
+    # evenly, 50 / 50, and are rounded first so the published maths adds up.
+    index = 0.50 * attention + 0.50 * live
+    index = r1(clamp(index, 0, 100))
 
     # --- 24h delta ------------------------------------------------------------
+    # FORMULA tags every stored point so a change to the maths can never be
+    # reported as a 24h move. Old-formula points are dropped on sight, which
+    # leaves the delta "provisional" until a full day of new-model data exists.
     hist = load("index_history.json", []) or []
     now_ts = time.time()
-    hist.append({"t": int(now_ts), "v": index})
-    hist = [h for h in hist if now_ts - h["t"] < 7 * 86400]
+    hist = [h for h in hist if h.get("f") == FORMULA and now_ts - h.get("t", 0) < 7 * 86400]
+    hist.append({"t": int(now_ts), "v": index, "f": FORMULA})
 
     delta = None
     for h in hist:
@@ -418,7 +452,6 @@ def main():
         "components": {
             "attention": round(attention, 1),
             "live": round(live, 1),
-            "headlines": round(headlines, 1),
         },
         "stats": {
             "twitchViewers": tw.get("viewers", 0),
