@@ -88,6 +88,7 @@
   .delta{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;letter-spacing:.04em;color:var(--green);font-weight:600;flex-wrap:wrap;justify-content:center}
   .delta .pill{background:rgba(61,220,132,.10);border:1px solid rgba(61,220,132,.22);padding:4px 10px;border-radius:99px;font-size:12px}
   .delta .pill.neg{background:rgba(255,77,77,.10);border-color:rgba(255,77,77,.25);color:var(--live)}
+  .delta .pill.wait{background:transparent;border-color:var(--line);color:var(--muted)}
   .stamp{margin-top:14px;font-size:11px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
   .stamp.bad{color:var(--live)}
 
@@ -215,7 +216,7 @@
   <section class="hero">
     <div class="eyebrow">The pulse of the GTA 6 launch</div>
     <h1 class="index" style="font-weight:800"><span id="idx">--</span><small>/100</small></h1>
-    <div class="delta"><span class="pill" id="delta">provisional</span> SIX STARS INDEX</div>
+    <div class="delta"><span class="pill wait" id="delta">first reading</span> SIX STARS INDEX</div>
     <div class="stamp" id="stamp">Connecting to data pipeline…</div>
 
     <div class="count" id="countdown">
@@ -471,8 +472,8 @@
     $("idx").textContent = (d.index||0).toFixed(1);
     var dl = $("delta");
     if(d.delta === null || d.delta === undefined){
-      dl.textContent = d.mode === "live" ? "live" : "provisional";
-      dl.className = "pill";
+      dl.textContent = d.mode === "live" ? "live" : "first reading";
+      dl.className = "pill" + (d.mode === "live" ? "" : " wait");
     } else {
       dl.textContent = (d.delta >= 0 ? "▲ +" : "▼ ") + d.delta + " · 24H";
       dl.className = "pill" + (d.delta < 0 ? " neg" : "");
