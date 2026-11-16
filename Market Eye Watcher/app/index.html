@@ -43,21 +43,20 @@
   [data-theme="dark"] .brand-main{fill:#F5EFE5}
   [data-theme="dark"] .brand-sub{fill:#A89D8D}
 
-  .dash{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(26px,4vw,60px);
-    align-items:start;padding:clamp(26px,4vw,44px) 0 clamp(26px,3.4vw,38px)}
+  .dash{display:block;text-align:center;padding:clamp(26px,4vw,44px) 0 clamp(26px,3.4vw,38px)}
   .idx-name{font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
   .index{font-size:clamp(72px,12vw,138px);font-weight:800;letter-spacing:-.05em;line-height:.86;
     font-variant-numeric:tabular-nums;background:linear-gradient(180deg,var(--text) 18%,var(--muted) 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent}
   .index small{font-size:.26em;letter-spacing:-.02em;-webkit-text-fill-color:var(--muted);color:var(--muted);font-weight:600}
-  .delta{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;letter-spacing:.03em;color:var(--green);font-weight:600;flex-wrap:wrap}
+  .delta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;font-size:13px;letter-spacing:.03em;color:var(--green);font-weight:600;flex-wrap:wrap}
   .delta .pill{background:rgba(23,128,74,.10);border:1px solid rgba(23,128,74,.24);padding:4px 10px;border-radius:99px;font-size:12px}
   .delta .pill.neg{background:rgba(255,77,77,.10);border-color:rgba(255,77,77,.25);color:var(--live)}
   .delta .d-lbl{font-size:12px;font-weight:400;letter-spacing:.02em;color:var(--dim)}
   .stamp{margin-top:11px;font-size:10.5px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
   .stamp.bad{color:var(--live)}
 
-  .sigs{margin-top:clamp(22px,3vw,30px);border-top:1px solid var(--line)}
+  .sigs{max-width:640px;margin:clamp(22px,3vw,30px) auto 0;border-top:1px solid var(--line);text-align:left}
   .sig{display:grid;grid-template-columns:92px 38px minmax(0,1fr) 46px;grid-template-areas:'k w d v';
     align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
   .s-k{grid-area:k;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
@@ -65,24 +64,23 @@
   .s-d{grid-area:d;font-size:12px;line-height:1.5;color:var(--muted)}
   .s-v{grid-area:v;font-size:15px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
 
-  .side{display:flex;flex-direction:column;gap:26px}
-  .count{display:flex;gap:8px;flex-wrap:wrap}
+  .count{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;max-width:640px;margin:clamp(26px,3vw,34px) auto 0}
   .unit{flex:1;min-width:0;padding:13px 6px 11px;text-align:center;border:1px solid var(--line);
     border-radius:12px;background:linear-gradient(180deg,var(--panel2),var(--panel))}
   .unit b{display:block;font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
   .unit i{display:block;font-style:normal;font-size:8.5px;letter-spacing:.2em;color:var(--dim);margin-top:6px}
   .count .target{flex-basis:100%;font-size:9.5px;letter-spacing:.16em;color:var(--dim);margin-top:8px;text-transform:uppercase;line-height:1.6}
-  .live-box{display:none;justify-content:flex-start}
+  .live-box{display:none;justify-content:center;margin-top:30px}
   .live-box b{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.28em;color:var(--live);
     border:1px solid rgba(255,77,77,.3);background:rgba(255,77,77,.07);padding:11px 20px;border-radius:99px}
   .dot{width:6px;height:6px;border-radius:50%;background:var(--live);box-shadow:0 0 10px var(--live)}
 
-  .stats{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line);
-    border-radius:14px;overflow:hidden}
-  .stat{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:13px 16px;background:var(--panel)}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
+    border-radius:14px;overflow:hidden;max-width:760px;margin:clamp(24px,3vw,32px) auto 0}
+  .stat{display:block;padding:16px 14px;background:var(--panel);text-align:center}
   .stat:hover{background:var(--panel2)}
   .stat .k{font-size:9px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
-  .stat .v{font-size:19px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .stat .v{font-size:24px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:7px}
   .stat .v span{font-size:11px;color:var(--muted);font-weight:500;margin-left:3px}
 
   .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:14px}
@@ -129,7 +127,6 @@
   footer p b{color:var(--muted);font-weight:600}
 
   @media (max-width:900px){
-    .dash{grid-template-columns:1fr;gap:30px}
     .row{grid-template-columns:24px 20px 48px minmax(0,1fr) 56px}
     .row .num.speed{display:none}
     .thumb{width:48px;height:29px}
@@ -139,6 +136,7 @@
     .sig{grid-template-columns:1fr auto auto;grid-template-areas:'k w v' 'd d d';gap:4px 12px}
     .s-d{grid-column:1/-1}
     .unit b{font-size:22px}
+    .stats{grid-template-columns:1fr}
     .brand svg{height:50px}
     .sec-head{flex-direction:column;align-items:flex-start}
   }
@@ -211,22 +209,20 @@
       </div>
     </section>
 
-    <aside class="side">
-      <div class="count" id="countdown">
-        <div class="unit"><b id="d">--</b><i>DAYS</i></div>
-        <div class="unit"><b id="h">--</b><i>HOURS</i></div>
-        <div class="unit"><b id="m">--</b><i>MINUTES</i></div>
-        <div class="unit"><b id="s">--</b><i>SECONDS</i></div>
-        <div class="target" id="unlock">Until unlock · 18 Nov 2026 · 16:30 IST</div>
-      </div>
-      <div class="live-box" id="livebox"><b><i class="dot"></i> LIVE — THE GAME IS OUT</b></div>
+    <div class="count" id="countdown">
+      <div class="unit"><b id="d">--</b><i>DAYS</i></div>
+      <div class="unit"><b id="h">--</b><i>HOURS</i></div>
+      <div class="unit"><b id="m">--</b><i>MINUTES</i></div>
+      <div class="unit"><b id="s">--</b><i>SECONDS</i></div>
+      <div class="target" id="unlock">Until unlock · 18 Nov 2026 · 16:30 IST</div>
+    </div>
+    <div class="live-box" id="livebox"><b><i class="dot"></i> LIVE — THE GAME IS OUT</b></div>
 
-      <div class="stats">
-        <div class="stat"><div class="k">Twitch viewers</div><div class="v" id="st-twitch">--</div></div>
-        <div class="stat"><div class="k">Tracked views</div><div class="v" id="st-views">--</div></div>
-        <div class="stat"><div class="k">Streams live</div><div class="v" id="st-streams">--</div></div>
-      </div>
-    </aside>
+    <div class="stats">
+      <div class="stat"><div class="k">Twitch viewers</div><div class="v" id="st-twitch">--</div></div>
+      <div class="stat"><div class="k">Tracked views</div><div class="v" id="st-views">--</div></div>
+      <div class="stat"><div class="k">Streams live</div><div class="v" id="st-streams">--</div></div>
+    </div>
   </main>
 
   <section class="sec-head">
