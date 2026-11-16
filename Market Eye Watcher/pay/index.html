@@ -209,14 +209,6 @@
     <a class="btn wide" id="whopBtn" href="#" target="_blank" rel="noopener">Continue to Whop</a>
   </section>
 
-  <!-- 03 GUMROAD -->
-  <section class="block" id="gumroadBlock">
-    <div class="lab">03 · Gumroad</div>
-    <h2>Buy on Gumroad</h2>
-    <p class="d">Same access, same price, if you already use Gumroad.</p>
-    <a class="btn ghost wide" id="gumroadBtn" href="#" target="_blank" rel="noopener">Open Gumroad</a>
-  </section>
-
   <footer>
     <p><b>Project Six Stars</b> is an independent fan project. Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. GTA and Grand Theft Auto are trademarks of their respective owners.</p>
     <div class="fl">
@@ -229,14 +221,13 @@
 
 <script src="/pay/qrcode.js"></script>
 <script>
-/* ---- EDIT THESE FIVE VALUES ---- */
+/* ---- EDIT THESE VALUES ---- */
 var CONFIG = {
   price: 499,
   upiVpa: "example@upi",              // e.g. "sixstars@okhdfcbank"
   upiName: "Project Six Stars",
   instagram: "projectsixstars",       // handle only, no @
-  whop: "https://whop.com/six-stars-e9a8/six-stars-elite-membership",
-  gumroad: ""                         // full product link
+  whop: "https://whop.com/six-stars-e9a8/six-stars-elite-membership"
 };
 /* -------------------------------- */
 
@@ -297,10 +288,6 @@ var CONFIG = {
   /* Whop */
   if (CONFIG.whop) { $("whopBtn").setAttribute("href", CONFIG.whop); }
   else { $("whopBlock").style.display = "none"; missing.push("whop"); }
-
-  /* Gumroad */
-  if (CONFIG.gumroad) { $("gumroadBtn").setAttribute("href", CONFIG.gumroad); }
-  else { $("gumroadBlock").style.display = "none"; missing.push("gumroad"); }
 
   if (missing.length) {
     $("setup").innerHTML = "Setup: fill <b>" + missing.join("</b>, <b>") + "</b> in CONFIG at the bottom of this file. This strip disappears once they are set.";
