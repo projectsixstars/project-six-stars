@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Get access — Project Six Stars</title>
+<meta name="description" content="Buy access to the Six Stars board. UPI in India, card anywhere." />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="theme-color" content="#FBF8F3" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>★</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#FBF8F3; --panel:#FFFFFF; --panel2:#F7F1E7; --line:#E7DFD2;
+    --text:#14120F; --muted:#6B6357; --dim:#9C9284;
+    --gold:#B07C1E; --gold-dim:#EFE2C6; --live:#D63B2C; --green:#17804A;
+  }
+  [data-theme="dark"]{
+    --bg:#131110; --panel:#1A1714; --panel2:#221E19; --line:#322C25;
+    --text:#F5EFE5; --muted:#A89D8D; --dim:#7C7366;
+    --gold:#D9A441; --gold-dim:#43351F; --live:#E8574A; --green:#4FB486;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .22s ease,color .22s ease}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(760px 360px at 50% -10%,rgba(245,196,81,.15),transparent 70%)}
+  [data-theme="dark"] body::before{background:radial-gradient(760px 360px at 50% -10%,rgba(217,164,65,.10),transparent 70%)}
+  .wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 22px}
+  a{color:inherit;text-decoration:none}
+
+  header{display:flex;align-items:center;justify-content:center;padding:10px 0 9px;border-bottom:1px solid var(--line)}
+  .brand svg{height:clamp(58px,6.6vw,74px);width:auto;display:block;overflow:visible}
+  .theme-btn{position:absolute;right:22px;top:50%;transform:translateY(-50%);width:34px;height:34px;
+    display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--panel);
+    color:var(--muted);cursor:pointer;transition:color .2s,border-color .2s,background .2s}
+  .theme-btn:hover{color:var(--text);border-color:var(--dim)}
+  .theme-btn svg{width:15px;height:15px;display:block}
+  .theme-btn .ic-sun{display:none}
+  [data-theme="dark"] .theme-btn .ic-sun{display:block}
+  [data-theme="dark"] .theme-btn .ic-moon{display:none}
+  [data-theme="dark"] #taperedArc{fill:#F2ECE2}
+  [data-theme="dark"] .brand-main{fill:#F5EFE5}
+  [data-theme="dark"] .brand-sub{fill:#A89D8D}
+
+  .head{padding:clamp(34px,6vw,54px) 0 clamp(24px,3vw,32px);text-align:center}
+  .head .k{font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .head h1{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400;
+    font-size:clamp(34px,6.4vw,54px);line-height:1.05;letter-spacing:-.012em}
+  .head p{margin-top:14px;font-size:14px;line-height:1.7;color:var(--muted)}
+
+  .block{border-top:1px solid var(--line);padding:clamp(24px,3.4vw,32px) 0}
+  .lab{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:11px}
+  .block h2{font-size:clamp(16px,2vw,19px);font-weight:700;letter-spacing:-.01em}
+  .block .d{font-size:13.5px;line-height:1.7;color:var(--muted);margin-top:6px;max-width:52ch}
+
+  /* UPI */
+  .upi{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;margin-top:22px;align-items:center}
+  .qr{background:#fff;padding:10px;border-radius:8px;width:190px;border:1px solid var(--line)}
+  .qr svg{width:100%;height:auto;display:block}
+  .qr-cap{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-align:center;margin-top:8px}
+  .amt{font-size:30px;font-weight:800;letter-spacing:-.04em;line-height:1}
+  .vpa{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .vpa code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:var(--text);
+    background:var(--panel2);border:1px solid var(--line);padding:5px 9px;border-radius:6px}
+  .copy{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:none;border:0;
+    border-bottom:1px solid var(--line);padding:0 0 2px;cursor:pointer;font-family:inherit}
+  .copy:hover{color:var(--text);border-color:var(--dim)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--gold);color:#fff;
+    font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:14px 22px;border-radius:8px;
+    border:0;cursor:pointer;font-family:inherit;transition:background .18s,transform .18s}
+  .btn:hover{background:#9A6B15;transform:translateY(-1px)}
+  [data-theme="dark"] .btn{color:#14120F}
+  .btn.wide{width:100%;margin-top:16px}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--text);background:transparent;transform:none}
+
+  .only-touch{display:none;flex-direction:column;gap:10px;margin-top:20px}
+  .ios{display:none;gap:14px;margin-top:12px;font-size:11px;letter-spacing:.08em;color:var(--muted);flex-wrap:wrap}
+  .ios a{border-bottom:1px solid var(--line);padding-bottom:2px}
+  .ios a:hover{color:var(--text);border-color:var(--dim)}
+
+  /* claim */
+  .claim{margin-top:24px;padding-top:20px;border-top:1px dashed var(--line)}
+  .claim .q{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+  .claim form{display:grid;gap:9px}
+  input{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--text);
+    font-family:inherit;font-size:13.5px;padding:12px 13px;border-radius:8px;outline:none}
+  input::placeholder{color:var(--dim)}
+  input:focus{border-color:var(--gold)}
+  .err{font-size:12px;color:var(--live);min-height:15px;margin-top:2px}
+  .fine{font-size:11px;color:var(--dim);line-height:1.6;margin-top:10px}
+  .fine b{color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+  .sent{display:none;margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--panel2)}
+  .sent p{font-size:12.5px;line-height:1.65;color:var(--muted)}
+  .sent p b{color:var(--text);font-weight:600}
+
+  .setup{display:none;margin:18px 0 0;padding:12px 14px;border:1px dashed var(--gold);border-radius:8px;
+    font-size:11.5px;line-height:1.6;color:var(--muted);background:var(--panel2)}
+  .setup b{color:var(--text)}
+
+  footer{border-top:1px solid var(--line);margin-top:clamp(30px,5vw,48px);padding:22px 0 40px}
+  footer p{font-size:10px;line-height:1.7;color:var(--dim)}
+  footer p b{color:var(--muted);font-weight:600}
+  .fl{display:flex;gap:18px;margin-top:14px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .fl a:hover{color:var(--text)}
+
+  @media (max-width:760px){
+    header{padding:8px 0}
+    .head{padding:28px 0 22px}
+    .upi{grid-template-columns:1fr;gap:0}
+    .qr-wrap{display:none}
+    .amtbox{margin-top:18px}
+    .only-touch{display:flex}
+    .ios{display:flex}
+    .amt{font-size:26px}
+  }
+</style>
+<script>try{if(localStorage.getItem("sixstars-theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+</head>
+<body>
+
+<div class="wrap">
+  <header style="position:relative">
+    <a class="brand" href="/"><svg class="logo-svg" viewBox="40 22 300 228" id="logoSvg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Bevel Facet Gradients for Authentic 3D Wanted-Star Look -->
+                <linearGradient id="starLightFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFF099"/>
+                    <stop offset="50%" stop-color="#FFD026"/>
+                    <stop offset="100%" stop-color="#F59E0B"/>
+                </linearGradient>
+
+                <linearGradient id="starShadowFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#E69D00"/>
+                    <stop offset="100%" stop-color="#B46900"/>
+                </linearGradient>
+
+                <filter id="emblemDrop" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.24"/>
+                </filter>
+            </defs>
+
+            <!-- Tapered Crescent Semicircle Path (thick apex tapering cleanly to sharp tips) -->
+            <path id="taperedArc" fill="#14171f" d="M 70.89,151.38 L 70.89,151.38 L 71.29,147.04 L 71.92,142.73 L 72.71,138.44 L 73.68,134.18 L 74.80,129.95 L 76.09,125.77 L 77.53,121.64 L 79.12,117.56 L 80.87,113.54 L 82.77,109.58 L 84.81,105.70 L 87.00,101.89 L 89.32,98.16 L 91.79,94.51 L 94.39,90.96 L 97.11,87.51 L 99.97,84.15 L 102.95,80.90 L 106.05,77.76 L 109.26,74.74 L 112.58,71.83 L 116.01,69.05 L 119.54,66.40 L 123.17,63.88 L 126.89,61.49 L 130.70,59.23 L 134.59,57.12 L 138.55,55.16 L 142.58,53.34 L 146.68,51.67 L 150.84,50.15 L 155.06,48.79 L 159.32,47.58 L 163.62,46.53 L 167.96,45.64 L 172.33,44.90 L 176.73,44.33 L 181.14,43.93 L 185.57,43.68 L 190.00,43.60 L 194.43,43.68 L 198.86,43.93 L 203.27,44.33 L 207.67,44.90 L 212.04,45.64 L 216.38,46.53 L 220.68,47.58 L 224.94,48.79 L 229.16,50.15 L 233.32,51.67 L 237.42,53.34 L 241.45,55.16 L 245.41,57.12 L 249.30,59.23 L 253.11,61.49 L 256.83,63.88 L 260.46,66.40 L 263.99,69.05 L 267.42,71.83 L 270.74,74.74 L 273.95,77.76 L 277.05,80.90 L 280.03,84.15 L 282.89,87.51 L 285.61,90.96 L 288.21,94.51 L 290.68,98.16 L 293.00,101.89 L 295.19,105.70 L 297.23,109.58 L 299.13,113.54 L 300.88,117.56 L 302.47,121.64 L 303.91,125.77 L 305.20,129.95 L 306.32,134.18 L 307.29,138.44 L 308.08,142.73 L 308.71,147.04 L 309.11,151.38 L 309.11,151.38 L 308.29,147.11 L 307.39,142.86 L 306.35,138.66 L 305.17,134.49 L 303.85,130.38 L 302.39,126.31 L 300.79,122.30 L 299.05,118.36 L 297.18,114.48 L 295.17,110.67 L 293.02,106.94 L 290.75,103.29 L 288.35,99.72 L 285.83,96.25 L 283.18,92.87 L 280.42,89.58 L 277.55,86.40 L 274.57,83.33 L 271.48,80.36 L 268.29,77.51 L 265.00,74.78 L 261.62,72.16 L 258.14,69.67 L 254.59,67.30 L 250.95,65.06 L 247.23,62.96 L 243.45,60.99 L 239.60,59.15 L 235.68,57.45 L 231.71,55.90 L 227.69,54.49 L 223.62,53.22 L 219.51,52.09 L 215.36,51.12 L 211.18,50.29 L 206.98,49.61 L 202.75,49.08 L 198.51,48.70 L 194.26,48.48 L 190.00,48.40 L 185.74,48.48 L 181.49,48.70 L 177.25,49.08 L 173.02,49.61 L 168.82,50.29 L 164.64,51.12 L 160.49,52.09 L 156.38,53.22 L 152.31,54.49 L 148.29,55.90 L 144.32,57.45 L 140.40,59.15 L 136.55,60.99 L 132.77,62.96 L 129.05,65.06 L 125.41,67.30 L 121.86,69.67 L 118.38,72.16 L 115.00,74.78 L 111.71,77.51 L 108.52,80.36 L 105.43,83.33 L 102.45,86.40 L 99.58,89.58 L 96.82,92.87 L 94.17,96.25 L 91.65,99.72 L 89.25,103.29 L 86.98,106.94 L 84.83,110.67 L 82.82,114.48 L 80.95,118.36 L 79.21,122.30 L 77.61,126.31 L 76.15,130.38 L 74.83,134.49 L 73.65,138.66 L 72.61,142.86 L 71.71,147.11 L 70.89,151.38 Z"/>
+
+            <!-- 6 Beveled Gold Stars mathematically locked onto the arc centerline -->
+            <g id="starsGroup" filter="url(#emblemDrop)"><g class="star-unit animate" style="animation-delay: 0ms;"><path d="M 74.09,110.44 L 80.67,125.88 L 97.39,127.37 L 84.74,138.40 L 88.49,154.76 L 74.09,146.14 L 59.69,154.76 L 63.44,138.40 L 50.79,127.37 L 67.51,125.88 Z" fill="url(#starLightFacet)" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/><polygon points="74.09,134.94 74.09,110.44 80.67,125.88" fill="url(#starLightFacet)"/><polygon points="74.09,134.94 80.67,125.88 97.39,127.37" fill="url(#starShadowFacet)"/><polygon points="74.09,134.94 97.39,127.37 84.74,138.40" fill="url(#starLightFacet)"/><polygon points="74.09,134.94 84.74,138.40 88.49,154.76" fill="url(#starShadowFacet)"/><polygon points="74.09,134.94 88.49,154.76 74.09,146.14" fill="url(#starLightFacet)"/><polygon points="74.09,134.94 74.09,146.14 59.69,154.76" fill="url(#starShadowFacet)"/><polygon points="74.09,134.94 59.69,154.76 63.44,138.40" fill="url(#starLightFacet)"/><polygon points="74.09,134.94 63.44,138.40 50.79,127.37" fill="url(#starShadowFacet)"/><polygon points="74.09,134.94 50.79,127.37 67.51,125.88" fill="url(#starLightFacet)"/><polygon points="74.09,134.94 67.51,125.88 74.09,110.44" fill="url(#starShadowFacet)"/><path d="M 74.09,110.44 L 80.67,125.88 L 97.39,127.37 L 84.74,138.40 L 88.49,154.76 L 74.09,146.14 L 59.69,154.76 L 63.44,138.40 L 50.79,127.37 L 67.51,125.88 Z" fill="none" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/></g><g class="star-unit animate" style="animation-delay: 90ms;"><path d="M 105.15,56.65 L 111.73,72.09 L 128.45,73.58 L 115.80,84.61 L 119.55,100.97 L 105.15,92.35 L 90.75,100.97 L 94.50,84.61 L 81.85,73.58 L 98.56,72.09 Z" fill="url(#starLightFacet)" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/><polygon points="105.15,81.15 105.15,56.65 111.73,72.09" fill="url(#starLightFacet)"/><polygon points="105.15,81.15 111.73,72.09 128.45,73.58" fill="url(#starShadowFacet)"/><polygon points="105.15,81.15 128.45,73.58 115.80,84.61" fill="url(#starLightFacet)"/><polygon points="105.15,81.15 115.80,84.61 119.55,100.97" fill="url(#starShadowFacet)"/><polygon points="105.15,81.15 119.55,100.97 105.15,92.35" fill="url(#starLightFacet)"/><polygon points="105.15,81.15 105.15,92.35 90.75,100.97" fill="url(#starShadowFacet)"/><polygon points="105.15,81.15 90.75,100.97 94.50,84.61" fill="url(#starLightFacet)"/><polygon points="105.15,81.15 94.50,84.61 81.85,73.58" fill="url(#starShadowFacet)"/><polygon points="105.15,81.15 81.85,73.58 98.56,72.09" fill="url(#starLightFacet)"/><polygon points="105.15,81.15 98.56,72.09 105.15,56.65" fill="url(#starShadowFacet)"/><path d="M 105.15,56.65 L 111.73,72.09 L 128.45,73.58 L 115.80,84.61 L 119.55,100.97 L 105.15,92.35 L 90.75,100.97 L 94.50,84.61 L 81.85,73.58 L 98.56,72.09 Z" fill="none" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/></g><g class="star-unit animate" style="animation-delay: 180ms;"><path d="M 158.94,25.59 L 165.52,41.03 L 182.24,42.52 L 169.59,53.55 L 173.34,69.91 L 158.94,61.29 L 144.54,69.91 L 148.29,53.55 L 135.64,42.52 L 152.36,41.03 Z" fill="url(#starLightFacet)" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/><polygon points="158.94,50.09 158.94,25.59 165.52,41.03" fill="url(#starLightFacet)"/><polygon points="158.94,50.09 165.52,41.03 182.24,42.52" fill="url(#starShadowFacet)"/><polygon points="158.94,50.09 182.24,42.52 169.59,53.55" fill="url(#starLightFacet)"/><polygon points="158.94,50.09 169.59,53.55 173.34,69.91" fill="url(#starShadowFacet)"/><polygon points="158.94,50.09 173.34,69.91 158.94,61.29" fill="url(#starLightFacet)"/><polygon points="158.94,50.09 158.94,61.29 144.54,69.91" fill="url(#starShadowFacet)"/><polygon points="158.94,50.09 144.54,69.91 148.29,53.55" fill="url(#starLightFacet)"/><polygon points="158.94,50.09 148.29,53.55 135.64,42.52" fill="url(#starShadowFacet)"/><polygon points="158.94,50.09 135.64,42.52 152.36,41.03" fill="url(#starLightFacet)"/><polygon points="158.94,50.09 152.36,41.03 158.94,25.59" fill="url(#starShadowFacet)"/><path d="M 158.94,25.59 L 165.52,41.03 L 182.24,42.52 L 169.59,53.55 L 173.34,69.91 L 158.94,61.29 L 144.54,69.91 L 148.29,53.55 L 135.64,42.52 L 152.36,41.03 Z" fill="none" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/></g><g class="star-unit animate" style="animation-delay: 270ms;"><path d="M 221.06,25.59 L 227.64,41.03 L 244.36,42.52 L 231.71,53.55 L 235.46,69.91 L 221.06,61.29 L 206.66,69.91 L 210.41,53.55 L 197.76,42.52 L 214.48,41.03 Z" fill="url(#starLightFacet)" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/><polygon points="221.06,50.09 221.06,25.59 227.64,41.03" fill="url(#starLightFacet)"/><polygon points="221.06,50.09 227.64,41.03 244.36,42.52" fill="url(#starShadowFacet)"/><polygon points="221.06,50.09 244.36,42.52 231.71,53.55" fill="url(#starLightFacet)"/><polygon points="221.06,50.09 231.71,53.55 235.46,69.91" fill="url(#starShadowFacet)"/><polygon points="221.06,50.09 235.46,69.91 221.06,61.29" fill="url(#starLightFacet)"/><polygon points="221.06,50.09 221.06,61.29 206.66,69.91" fill="url(#starShadowFacet)"/><polygon points="221.06,50.09 206.66,69.91 210.41,53.55" fill="url(#starLightFacet)"/><polygon points="221.06,50.09 210.41,53.55 197.76,42.52" fill="url(#starShadowFacet)"/><polygon points="221.06,50.09 197.76,42.52 214.48,41.03" fill="url(#starLightFacet)"/><polygon points="221.06,50.09 214.48,41.03 221.06,25.59" fill="url(#starShadowFacet)"/><path d="M 221.06,25.59 L 227.64,41.03 L 244.36,42.52 L 231.71,53.55 L 235.46,69.91 L 221.06,61.29 L 206.66,69.91 L 210.41,53.55 L 197.76,42.52 L 214.48,41.03 Z" fill="none" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/></g><g class="star-unit animate" style="animation-delay: 360ms;"><path d="M 274.85,56.65 L 281.44,72.09 L 298.15,73.58 L 285.50,84.61 L 289.25,100.97 L 274.85,92.35 L 260.45,100.97 L 264.20,84.61 L 251.55,73.58 L 268.27,72.09 Z" fill="url(#starLightFacet)" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/><polygon points="274.85,81.15 274.85,56.65 281.44,72.09" fill="url(#starLightFacet)"/><polygon points="274.85,81.15 281.44,72.09 298.15,73.58" fill="url(#starShadowFacet)"/><polygon points="274.85,81.15 298.15,73.58 285.50,84.61" fill="url(#starLightFacet)"/><polygon points="274.85,81.15 285.50,84.61 289.25,100.97" fill="url(#starShadowFacet)"/><polygon points="274.85,81.15 289.25,100.97 274.85,92.35" fill="url(#starLightFacet)"/><polygon points="274.85,81.15 274.85,92.35 260.45,100.97" fill="url(#starShadowFacet)"/><polygon points="274.85,81.15 260.45,100.97 264.20,84.61" fill="url(#starLightFacet)"/><polygon points="274.85,81.15 264.20,84.61 251.55,73.58" fill="url(#starShadowFacet)"/><polygon points="274.85,81.15 251.55,73.58 268.27,72.09" fill="url(#starLightFacet)"/><polygon points="274.85,81.15 268.27,72.09 274.85,56.65" fill="url(#starShadowFacet)"/><path d="M 274.85,56.65 L 281.44,72.09 L 298.15,73.58 L 285.50,84.61 L 289.25,100.97 L 274.85,92.35 L 260.45,100.97 L 264.20,84.61 L 251.55,73.58 L 268.27,72.09 Z" fill="none" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/></g><g class="star-unit animate" style="animation-delay: 450ms;"><path d="M 305.91,110.44 L 312.49,125.88 L 329.21,127.37 L 316.56,138.40 L 320.31,154.76 L 305.91,146.14 L 291.51,154.76 L 295.26,138.40 L 282.61,127.37 L 299.33,125.88 Z" fill="url(#starLightFacet)" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/><polygon points="305.91,134.94 305.91,110.44 312.49,125.88" fill="url(#starLightFacet)"/><polygon points="305.91,134.94 312.49,125.88 329.21,127.37" fill="url(#starShadowFacet)"/><polygon points="305.91,134.94 329.21,127.37 316.56,138.40" fill="url(#starLightFacet)"/><polygon points="305.91,134.94 316.56,138.40 320.31,154.76" fill="url(#starShadowFacet)"/><polygon points="305.91,134.94 320.31,154.76 305.91,146.14" fill="url(#starLightFacet)"/><polygon points="305.91,134.94 305.91,146.14 291.51,154.76" fill="url(#starShadowFacet)"/><polygon points="305.91,134.94 291.51,154.76 295.26,138.40" fill="url(#starLightFacet)"/><polygon points="305.91,134.94 295.26,138.40 282.61,127.37" fill="url(#starShadowFacet)"/><polygon points="305.91,134.94 282.61,127.37 299.33,125.88" fill="url(#starLightFacet)"/><polygon points="305.91,134.94 299.33,125.88 305.91,110.44" fill="url(#starShadowFacet)"/><path d="M 305.91,110.44 L 312.49,125.88 L 329.21,127.37 L 316.56,138.40 L 320.31,154.76 L 305.91,146.14 L 291.51,154.76 L 295.26,138.40 L 282.61,127.37 L 299.33,125.88 Z" fill="none" stroke="#14171f" stroke-width="2.4" stroke-linejoin="round"/></g></g>
+
+            <!-- Primary Title: SIX STARS -->
+            <text x="190" y="206" class="brand-main" fill="#0f1115" style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 900; font-size: 40px; letter-spacing: 2.5px; text-anchor: middle;">SIX STARS</text>
+
+            <!-- Flanking Gold Accent Bars & Subtitle: PROJECT -->
+            <rect x="68" y="226" width="52" height="3" rx="1.5" fill="#d4af37" class="accent-bar"/>
+            <text x="194" y="232" class="brand-sub" fill="#3f4451" style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 13.5px; letter-spacing: 8px; text-anchor: middle;">PROJECT</text>
+            <rect x="260" y="226" width="52" height="3" rx="1.5" fill="#d4af37" class="accent-bar"/>
+        </svg></a>
+    <button class="theme-btn" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Light / dark">
+      <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 13.1A8.6 8.6 0 1 1 10.9 3.5a6.7 6.7 0 0 0 9.6 9.6z"/></svg>
+      <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.1"/><path d="M12 2.8v2.1M12 19.1v2.1M2.8 12h2.1M19.1 12h2.1M5.5 5.5l1.5 1.5M17 17l1.5 1.5M18.5 5.5L17 7M7 17l-1.5 1.5"/></svg>
+    </button>
+  </header>
+
+  <div class="head">
+    <div class="k">Access</div>
+    <h1>₹499, one payment.</h1>
+    <p>The live index, the Starboard, the countdown. No subscription.</p>
+  </div>
+
+  <div class="setup" id="setup">Setup: add <b>upiVpa</b> and <b>whatsapp</b> in CONFIG at the top of this file. This strip disappears once both are filled.</div>
+
+  <!-- UPI -->
+  <section class="block" id="upiBlock">
+    <div class="lab">UPI · India</div>
+    <h2>Pay ₹499 by UPI</h2>
+    <p class="d">Scan the code, or let it open your UPI app with the amount already filled in.</p>
+
+    <div class="upi">
+      <div class="qr-wrap">
+        <div class="qr" id="qrBox"></div>
+        <div class="qr-cap">Scan with any UPI app</div>
+      </div>
+      <div class="amtbox">
+        <div class="amt">₹499</div>
+        <div class="vpa">
+          <code id="vpaText">—</code>
+          <button class="copy" type="button" id="copyVpa">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="only-touch">
+      <a class="btn wide" id="openUpi" href="#">Open UPI app</a>
+      <div class="ios" id="iosRow">
+        <a data-app="gpay">GPay</a>
+        <a data-app="phonepe">PhonePe</a>
+        <a data-app="paytm">Paytm</a>
+      </div>
+    </div>
+
+    <div class="claim">
+      <div class="q">Already paid?</div>
+      <form id="claimForm" novalidate>
+        <input id="utr" placeholder="12-digit UPI reference (UTR)" inputmode="numeric" maxlength="12" autocomplete="off" spellcheck="false" />
+        <input id="email" type="email" placeholder="Email for your key" autocomplete="email" spellcheck="false" />
+        <button class="btn" type="submit" id="claimBtn">Send and get my key</button>
+        <div class="err" id="err"></div>
+      </form>
+      <div class="sent" id="sent">
+        <p><b>Message ready.</b> Press send in the app that just opened and your key comes back there.</p>
+      </div>
+      <p class="fine">Reference <b id="ref">—</b> — it is already in the message. Keep it if you need to follow up.</p>
+    </div>
+  </section>
+
+  <!-- CARD -->
+  <section class="block" id="cardBlock">
+    <div class="lab">Card · anywhere</div>
+    <h2>Pay ₹499 by card</h2>
+    <p class="d">Visa, Mastercard, Amex. Handled by Whop, key sent to your email the moment it clears.</p>
+    <a class="btn wide" id="whopBtn" href="#" rel="noopener">Continue to checkout</a>
+  </section>
+
+  <!-- GUMROAD -->
+  <section class="block" id="gumroadBlock">
+    <div class="lab">Gumroad</div>
+    <h2>Buy on Gumroad</h2>
+    <p class="d">Same access, same key, if you already use Gumroad.</p>
+    <a class="btn ghost wide" id="gumroadBtn" href="#" rel="noopener">Open Gumroad</a>
+  </section>
+
+  <footer>
+    <p><b>Project Six Stars</b> is an independent fan project. Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. GTA and Grand Theft Auto are trademarks of their respective owners.</p>
+    <div class="fl">
+      <a href="/">Back to site</a>
+      <a href="/app">The tool</a>
+      <a href="/data/current.json">JSON</a>
+    </div>
+  </footer>
+</div>
+
+<script src="/pay/qrcode.js"></script>
+<script>
+/* ---- EDIT THESE SEVEN VALUES ---- */
+var CONFIG = {
+  price: 499,
+  upiVpa: "",                        // e.g. "sixstars@okhdfcbank"
+  upiName: "Project Six Stars",
+  whatsapp: "",                      // digits only, country code first, e.g. "919876543210"
+  email: "",                         // fallback if whatsapp is empty
+  whop: "",                          // e.g. "https://whop.com/checkout/plan_xxx"
+  gumroad: ""                        // e.g. "https://sixstars.gumroad.com/l/launch"
+};
+/* -------------------------------- */
+
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var isTouch = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  var ref = "SS-" + Math.random().toString(36).slice(2, 6).toUpperCase();
+
+  function enc(s){ return encodeURIComponent(s); }
+
+  function upiUri(prefix, extra){
+    var q = "pa=" + enc(CONFIG.upiVpa) +
+            "&pn=" + enc(CONFIG.upiName) +
+            "&am=" + CONFIG.price +
+            "&cu=INR" +
+            "&tn=" + enc("Six Stars access " + ref);
+    return (prefix || "upi://pay?") + q + (extra || "");
+  }
+
+  /* UPI block */
+  if (CONFIG.upiVpa) {
+    $("vpaText").textContent = CONFIG.upiVpa;
+    if ($("qrBox")) {
+      try {
+        var qr = qrcode(0, "M");
+        qr.addData(upiUri());
+        qr.make();
+        $("qrBox").innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+      } catch(e) {
+        $("qrBox").innerHTML = '<div style="padding:18px;font-size:11px;color:#666">QR unavailable</div>';
+      }
+    }
+    $("openUpi").setAttribute("href", upiUri());
+    $("openUpi").addEventListener("click", function(e){
+      if (!isTouch) { e.preventDefault(); }
+    });
+    if (isIOS) {
+      $("iosRow").querySelectorAll("a").forEach(function(a){
+        var app = a.getAttribute("data-app");
+        var p = app === "gpay" ? "gpay://upi/pay?" : app === "phonepe" ? "phonepe://pay?" : "paytmmp://pay?";
+        a.setAttribute("href", upiUri(p));
+      });
+    }
+    $("copyVpa").addEventListener("click", function(){
+      var t = $("vpaText").textContent, self = this;
+      var done = function(){ self.textContent = "Copied"; setTimeout(function(){ self.textContent = "Copy"; }, 1400); };
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, done); else done();
+    });
+  } else {
+    $("upiBlock").style.display = "none";
+  }
+
+  /* card + gumroad */
+  if (CONFIG.whop) { $("whopBtn").setAttribute("href", CONFIG.whop); } else { $("cardBlock").style.display = "none"; }
+  if (CONFIG.gumroad) { $("gumroadBtn").setAttribute("href", CONFIG.gumroad); } else { $("gumroadBlock").style.display = "none"; }
+
+  /* setup hint */
+  if (!CONFIG.upiVpa || !(CONFIG.whatsapp || CONFIG.email)) {
+    $("setup").style.display = "block";
+  }
+
+  /* claim form */
+  $("ref").textContent = ref;
+  $("claimForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var utr = $("utr").value.replace(/\D/g, "");
+    var mail = $("email").value.trim();
+    var err = $("err");
+
+    if (utr.length !== 12) { err.textContent = "That reference should be 12 digits."; $("utr").focus(); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) { err.textContent = "Enter a valid email address."; $("email").focus(); return; }
+    if (!CONFIG.whatsapp && !CONFIG.email) { err.textContent = "Add a contact number in CONFIG first."; return; }
+
+    err.textContent = "";
+    var msg = "Payment for Six Stars\nAmount: Rs " + CONFIG.price + "\nUTR: " + utr + "\nRef: " + ref + "\nEmail: " + mail;
+    var url = CONFIG.whatsapp
+      ? "https://wa.me/" + CONFIG.whatsapp + "?text=" + enc(msg)
+      : "mailto:" + CONFIG.email + "?subject=" + enc("Six Stars payment " + ref) + "&body=" + enc(msg);
+
+    window.open(url, "_blank");
+    $("claimForm").style.display = "none";
+    $("sent").style.display = "block";
+  });
+})();
+
+/* theme */
+(function(){
+  var root = document.documentElement, KEY = "sixstars-theme";
+  function read(){ try { return localStorage.getItem(KEY); } catch(e){ return null; } }
+  function apply(t){
+    if (t === "dark") root.setAttribute("data-theme","dark"); else root.removeAttribute("data-theme");
+    var b = document.getElementById("themeToggle");
+    if (b) b.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  }
+  apply(read() === "dark" ? "dark" : "light");
+  document.getElementById("themeToggle").addEventListener("click", function(){
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    apply(next);
+    try { localStorage.setItem(KEY, next); } catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
